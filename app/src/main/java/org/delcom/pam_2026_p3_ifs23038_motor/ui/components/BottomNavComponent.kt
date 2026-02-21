@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import org.delcom.pam_2026_p3_ifs23038_motor.helper.ConstHelper
 import org.delcom.pam_2026_p3_ifs23038_motor.helper.RouteHelper
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.theme.DelcomTheme
@@ -65,7 +66,9 @@ fun BottomNavComponent(navController: NavHostController) {
         MenuBottomNav.Profile,
     )
 
-    val currentRoute = navController.currentDestination?.route
+    // PERBAIKAN: Gunakan currentBackStackEntryAsState() agar UI update saat pindah halaman
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
 
     Surface(
         modifier = Modifier
@@ -85,7 +88,7 @@ fun BottomNavComponent(navController: NavHostController) {
             tonalElevation = 0.dp
         ) {
             items.forEachIndexed { _, screen ->
-                val selected = currentRoute?.contains(screen.route) == true
+                val selected = currentRoute == screen.route
                 val animatedHeight by animateDpAsState(
                     targetValue = if (selected) 56.dp else 48.dp,
                     label = "navigationHeight"
@@ -94,7 +97,9 @@ fun BottomNavComponent(navController: NavHostController) {
                 NavigationBarItem(
                     selected = selected,
                     onClick = {
-                        RouteHelper.to(navController, screen.route, true)
+                        if (currentRoute != screen.route) {
+                            RouteHelper.to(navController, screen.route, true)
+                        }
                     },
                     icon = {
                         Column(

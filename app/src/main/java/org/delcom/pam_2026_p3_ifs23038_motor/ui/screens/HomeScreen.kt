@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.components.BottomNavComponent
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.components.TopAppBarComponent
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.theme.DelcomTheme
@@ -130,10 +131,11 @@ fun HomeUI(){
     }
 }
 
-@Preview(showBackground = true, name = "Light Mode")
+@Preview(showBackground = true, showSystemUi = true, name = "Home Screen Preview")
 @Composable
 fun PreviewHomeUI(){
     DelcomTheme {
-        HomeUI()
+        val navController = rememberNavController()
+        HomeScreen(navController = navController)
     }
 }

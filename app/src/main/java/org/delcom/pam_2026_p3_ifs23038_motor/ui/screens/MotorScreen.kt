@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import org.delcom.pam_2026_p3_ifs23038_motor.data.DummyData
 import org.delcom.pam_2026_p3_ifs23038_motor.data.MotorData
+import org.delcom.pam_2026_p3_ifs23038_motor.helper.ConstHelper
 import org.delcom.pam_2026_p3_ifs23038_motor.helper.RouteHelper
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.components.BottomNavComponent
 import org.delcom.pam_2026_p3_ifs23038_motor.ui.components.TopAppBarComponent
@@ -46,14 +47,14 @@ import org.delcom.pam_2026_p3_ifs23038_motor.ui.theme.DelcomTheme
 fun MotorScreen(
     navController: NavHostController,
 ) {
-    // Muat data
     var motors by remember { mutableStateOf(DummyData.getMotorData()) }
     var searchQuery by remember { mutableStateOf("") }
 
     fun onOpen(motorName: String) {
+        val route = ConstHelper.RouteNames.MotorDetail.path.replace("{name}", motorName)
         RouteHelper.to(
             navController = navController,
-            destination = "Motor/${motorName}"
+            destination = route
         )
     }
 
@@ -62,7 +63,6 @@ fun MotorScreen(
             .fillMaxWidth()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Top App Bar
         TopAppBarComponent(
             navController = navController,
             title = "Motors", showBackButton = false,
@@ -77,7 +77,6 @@ fun MotorScreen(
                 }
             }
         )
-        // Content
         Box(
             modifier = Modifier
                 .weight(1f)
@@ -87,7 +86,6 @@ fun MotorScreen(
                 onOpen = ::onOpen
             )
         }
-        // Bottom Nav
         BottomNavComponent(navController = navController)
     }
 }
