@@ -1,5 +1,6 @@
 package org.delcom.pam_2026_p3_ifs23038_motor.ui.screens
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -50,8 +51,11 @@ fun MotorScreen(
     var motors by remember { mutableStateOf(DummyData.getMotorData()) }
     var searchQuery by remember { mutableStateOf("") }
 
+    // PERBAIKAN DI SINI: Pindah dan ubah fungsi onOpen-nya di sini
     fun onOpen(motorName: String) {
-        val route = ConstHelper.RouteNames.MotorDetail.path.replace("{name}", motorName)
+        // Encode nama motor agar spasi dan karakter khusus aman untuk navigasi
+        val encodedName = Uri.encode(motorName)
+        val route = ConstHelper.RouteNames.MotorDetail.path.replace("{name}", encodedName)
         RouteHelper.to(
             navController = navController,
             destination = route

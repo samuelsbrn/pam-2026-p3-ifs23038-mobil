@@ -90,13 +90,13 @@ fun ProfileUI(){
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Abdullah Ubaid",
+                    text = "Samuel Faldhieto Sibarani",
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Bold
                 )
 
                 Text(
-                    text = "ifs18005",
+                    text = "ifs23038",
                     fontSize = 16.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

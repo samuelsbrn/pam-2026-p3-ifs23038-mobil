@@ -9,20 +9,24 @@ object RouteHelper {
         destination: String,
         removeBackStack: Boolean = false
     ) {
-        if (removeBackStack) {
-            navController.navigate(destination) {
-                // Berpindah ke halaman tujuan dan membersihkan stack sampai ke Start Destination
-                // Ini mencegah aplikasi keluar jika route salah, dan mencegah penumpukan halaman
-                popUpTo(navController.graph.findStartDestination().id) {
-                    saveState = true
+        try {
+            if (removeBackStack) {
+                navController.navigate(destination) {
+                    // Berpindah ke halaman tujuan dan membersihkan stack sampai ke Start Destination
+                    popUpTo(navController.graph.findStartDestination().id) {
+                        saveState = true
+                    }
+                    launchSingleTop = true
+                    restoreState = true
                 }
-                launchSingleTop = true
-                restoreState = true
+            } else {
+                navController.navigate(destination) {
+                    launchSingleTop = true
+                }
             }
-        } else {
-            navController.navigate(destination) {
-                launchSingleTop = true
-            }
+        } catch (e: IllegalStateException) {
+            // Mencegah aplikasi crash saat Bottom Nav diklik di tampilan Preview (karena graph belum di-set)
+            e.printStackTrace()
         }
     }
 
